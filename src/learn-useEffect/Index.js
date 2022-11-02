@@ -1,66 +1,54 @@
 import React,{useState,useEffect} from "react";
 import "./index.css";
 
-export default function Index(){
-    const [count,setCount] = useState(0);
-    const [data,setData] = useState([]);
+const App = () => {
+  const Angka1 = useRef(0);
+  const Angka2 = useRef(0);
 
-    //dijalankan 1 kali
-    useEffect(() =>{
-        fetch('https://jsonplaceholder.typicode.com/todos')
-        .then((response) => response.json())
-        .then((data)=> {
-            console.log(data);
-            setData(data);
-        })
-            .catch((error) =>{
-            console.log(error);
-        });
-    }, []);
+  const [numbers, setNumbers] = useState({
+    numberA: Angka1.current.value,
+    numberB: Angka2.current.value,
+  });
 
-    //dijalankan terus setiap ada perubahan count
-    useEffect(() => {
-        if (count>0) {
-            alert ('component will update & count ${count}');
-        }
-    },[count]);
-
-    //dijalankan terus menerus
-    useEffect(() => {
-        console.log('spam console kuy');
+  const getTotalHandler = () => {
+    setNumbers({
+    numberA: +Angka1.current.value,
+    numberB: +Angka2.current.value,
     });
+  };
 
-    const countUp =() =>{
-        setCount(count +1);
-    };
-
-    const countDown=() =>{
-        setCount(count -1);
-    };
-
-    return(
-        <div className="Main">
-            <p className="Text"> Learn useEffect</p>
-            <p>KELOMPOKXX</p>
-            <ul>
-                {data.slice(0,10).map((value) =>(
-                    <li key={value.id}>{value.title}</li>
-                ))}
-            </ul>
-
-            <p className="Text">{count}</p>
-            <div className="ViewButton">
-            <div className="ViewButton2">
-                <button className="Button" onClick={countUp}>
-Up
-                </button>
-            </div>
-            <div className="ViewButton1">
-                <button className="Button" onClick={countDown}>
-Down
-                </button>
-            </div>
-            </div>
+  return (
+    <>
+      <div className="Main" >
+        <p className="Text">Kalkulator Penjumlahan</p>
+        <p>KELOMPOK 28</p>
+    </div>
+    <div className="container">
+        <div>
+        <label>Angka 1  </label>
+        <input type="number" ref={Angka1} />
         </div>
-    );
-}
+        <div>
+        <label>Angka 2  </label>
+        <input type="number" ref={Angka2} />
+        </div>
+        <button onClick={getTotalHandler}>Calculate</button>
+        <Calculator numberA={numbers.numberA} numberB={numbers.numberB} />
+    </div>
+    </>
+  );
+};
+
+const Calculator = ({ numberA, numberB }) => {
+    useEffect(() => {
+      console.log(`First render`);
+    }, []);
+  
+    useEffect(() => {
+      console.log(`This gets executed each time the props are updated`);
+    }, [numberA, numberB]);
+  
+    return <h1>Total = {numberA + numberB}</h1>;
+  };
+
+export default App;

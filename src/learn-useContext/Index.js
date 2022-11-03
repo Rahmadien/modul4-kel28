@@ -29,7 +29,7 @@ export default function Index() {
         style={{ background: theme.background, color: theme.foreground }}
       >
         <p className="Text">Theme by useContext</p>
-        <p>KELOMPOKXX</p>
+        <p>KELOMPOK28</p>
         <ThemedButton />
       </div>
     </ThemeContext.Provider>
